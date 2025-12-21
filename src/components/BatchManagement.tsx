@@ -7,6 +7,7 @@ import { Input } from './ui/input';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { Label } from './ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { 
   Users, 
   Calendar, 
@@ -19,9 +20,14 @@ import {
   BookOpen,
   Video,
   FileText,
-  Award
+  Award,
+  Upload,
+  X,
+  CheckCircle
 } from 'lucide-react';
 import { batches, courses } from '../lib/data';
+import { toast } from 'sonner';
+import { CSVBatchDialog } from './CSVBatchDialog';
 
 interface BatchManagementProps {
   onNavigate: (page: string, data?: any) => void;
@@ -31,6 +37,9 @@ interface BatchManagementProps {
 export function BatchManagement({ onNavigate, role = 'faculty' }: BatchManagementProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBatch, setSelectedBatch] = useState<any>(null);
+  const [csvFile, setCsvFile] = useState<File | null>(null);
+  const [csvStudents, setCsvStudents] = useState<any[]>([]);
+  const [uploadMethod, setUploadMethod] = useState<'manual' | 'csv'>('manual');
 
   const batchStats = {
     activeBatches: batches.length,
@@ -68,67 +77,7 @@ export function BatchManagement({ onNavigate, role = 'faculty' }: BatchManagemen
             {role === 'admin' ? 'Manage all batches across the platform' : 'Manage your assigned batches'}
           </p>
         </div>
-        {role === 'admin' && (
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button style={{ backgroundColor: 'var(--color-primary)' }}>
-                <Plus className="w-4 h-4 mr-2" />
-                Create Batch
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-md">
-              <DialogHeader>
-                <DialogTitle>Create New Batch</DialogTitle>
-                <DialogDescription>
-                  Add a new batch to the platform
-                </DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="batch-name">Batch Name</Label>
-                  <Input id="batch-name" placeholder="e.g., DSA Batch - Winter 2026" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="course">Course</Label>
-                  <Select>
-                    <SelectTrigger id="course">
-                      <SelectValue placeholder="Select a course" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {courses.map(course => (
-                        <SelectItem key={course.id} value={course.id}>
-                          {course.title}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="start-date">Start Date</Label>
-                    <Input id="start-date" type="date" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="end-date">End Date</Label>
-                    <Input id="end-date" type="date" />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="schedule">Schedule</Label>
-                  <Input id="schedule" placeholder="e.g., Mon, Wed, Fri - 6:00 PM" />
-                </div>
-                <div className="flex gap-2">
-                  <Button className="flex-1" style={{ backgroundColor: 'var(--color-primary)' }}>
-                    Create Batch
-                  </Button>
-                  <Button variant="outline" className="flex-1">
-                    Cancel
-                  </Button>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
-        )}
+        {role === 'admin' && <CSVBatchDialog />}
       </div>
 
       {/* Stats */}

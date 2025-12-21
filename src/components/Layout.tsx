@@ -2,7 +2,7 @@ import React from 'react';
 import { useAuth } from '../lib/auth-context';
 import { Button } from './ui/button';
 import { Avatar, AvatarFallback } from './ui/avatar';
-import { Bell, Search, Settings, LogOut, Code2, Home, BookOpen, FileCode, MessageSquare, Award, Users, BarChart3 } from 'lucide-react';
+import { Bell, Search, Settings, LogOut, Code2, Home, BookOpen, FileCode, MessageSquare, Award, Users, BarChart3, Calendar } from 'lucide-react';
 import { Input } from './ui/input';
 import {
   DropdownMenu,
@@ -35,6 +35,7 @@ export function Layout({ children, currentPage, onNavigate }: LayoutProps) {
       return [
         ...common,
         { id: 'problems', label: 'Problems', icon: FileCode },
+        { id: 'attendance', label: 'Attendance', icon: Calendar },
         { id: 'messages', label: 'Q&A', icon: MessageSquare },
         { id: 'leaderboard', label: 'Leaderboard', icon: Award },
       ];

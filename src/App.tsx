@@ -15,6 +15,7 @@ import { GradingQueue } from './components/GradingQueue';
 import { BatchManagement } from './components/BatchManagement';
 import { UserManagement } from './components/UserManagement';
 import { AnalyticsPage } from './components/AnalyticsPage';
+import { AttendancePage } from './components/AttendancePage';
 import { Problem } from './lib/data';
 import { Toaster } from './components/ui/sonner';
 
@@ -70,6 +71,7 @@ function AppContent() {
         {currentPage === 'grading' && <GradingQueue onNavigate={handleNavigate} />}
         {currentPage === 'users' && <UserManagement onNavigate={handleNavigate} />}
         {currentPage === 'analytics' && <AnalyticsPage onNavigate={handleNavigate} />}
+        {currentPage === 'attendance' && <AttendancePage />}
       </Layout>
     );
   };
